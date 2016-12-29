@@ -1,5 +1,14 @@
+/* ============================================================ 
+Tested in: 
+Chrome Version: 55.0.2883.87
+Firefox Version: 50.1.0
+Internet Explorer: Edge 13
+=============================================================  */
+
+
 // Create video element
 var video = document.createElement('video');
+
 // Check browser support before loading video
 checkBrowserSupport();
 
@@ -16,11 +25,7 @@ var $volumeBar = $("#volume-bar");
 
 // Sliders
 var $progressBar = $("#progress-bar");
-var $bufferBar = $("#buffer-bar");
 var $playTime = ("#playtime");
-
-// Elements,
-var $span = $("span")
 
 
 /* ============================================================ 
@@ -28,31 +33,27 @@ var $span = $("span")
 =============================================================== */
 
 function checkBrowserSupport() {
-	var $media = $("#media");
-	var $message = $("#message");
-	var $caption = $("#caption");
-	var $vidExtension;
+	var $vidExt;
 
 	// if browser supports the video type
 	if ( video.canPlayType('video/mp4') ) {
 		// Save video extension to variable 
-	    $vidExtension = '.mp4';
+	    $vidExt = '.mp4';
 	} else if ( video.canPlayType('video/ogg') ) {
-		$vidExtension = '.ogg';
+		$vidExt= '.ogg';
 	} else {
 		// Display message if browser does not support video type
-		message.innerHTML = "No video support"; 
+		$("#message").innerHTML = "No video support"; 
 		// hide default controls
 		$( ".videoContainer" ).hide();
 	}
 
 	// Append video element to media div
-	media.appendChild(video);
-	// Load video from folder
-	video.src = "video/video" + $vidExtension;
-
-	// print caption
-	$caption.html( printCaption(captions) );
+	$("#media").append(video);
+	// Load video from video folder
+	video.src = "video/video" + $vidExt;
+	// Load caption
+	$("#caption").html( printCaption(captions) );
 }
 
 
@@ -60,8 +61,7 @@ function checkBrowserSupport() {
   Caption rendering
 =============================================================== */
 
- function printCaption (captions) {
- 	// var $caption = $("#caption");
+ function printCaption (captions) {	
 	var captionHTML = "";
 	for(var i=0; i<captions.length; i++) {
 		captionHTML += "<span>";
@@ -72,14 +72,14 @@ function checkBrowserSupport() {
 }
 
 // Highlight caption
-function hightlightCaption (element, index) {
-	var span = element[index];
+function hightlightCaption (span) {
 	// remove all hightlighted spans
-	$(element).each( function() {
+	$("span").each( function() {
 		if( $(this).hasClass("hightlight") ){
-	 		$(this).removeClass("hightlight")
+	 		$(this).removeClass("hightlight");
 	 	}
 	});
+
 	// Add highlight to selected span
 	$(span).addClass("hightlight");		
 }
@@ -88,7 +88,7 @@ function hightlightCaption (element, index) {
 $( "span" ).each( function( index ) {
   $(this).bind( "click", function() {
 	  	video.currentTime = captions[index].start;
-	  	video.play();
+	  	video.play();  		
 	});
 });
 
@@ -99,31 +99,27 @@ $( "span" ).each( function( index ) {
 
 // Update current playback position has changed
 video.addEventListener('timeupdate', function() {
-
+	// Update the progress bar as the video plays
 	var currentTime = video.currentTime;
 	var value = (currentTime / video.duration) * 100;
 	$progressBar.val(value);
 
-	// display play time in minutes and seconds
+	// Display play time in minutes and seconds
 	var currentPlayTime = formatTime(currentTime);
 	var videoDuration = formatTime(video.duration);
 	$playTime.innerText = currentPlayTime  + " / " + videoDuration;
 
-
-	// var duration =  video.duration;
-	// if (duration > 0) {
-	//   document.getElementById('progress-amount').style.width = ((video.currentTime / duration)*100) + "%";
-	// }
-
-
-	// cycle through all captions
-	for(var i=0; i<captions.length; i++) {		
-		// if the current time play is the caption start time
-		if (video.currentTime >= captions[i].start) {	
-				// highlight caption	
-				hightlightCaption($span, i);	
-		}
-	}		
+	// Highlight caption and set scroll position as the video plays
+   	$("span").each(function(index){	
+   		// Find the caption div top position
+   		var captionTop = $("#caption").offset().top;
+	   if (video.currentTime >= captions[index].start && video.currentTime < captions[index+1].start ) {	
+			// Set scrollbar position to the offset distance between the current span and caption container
+			$("#caption").scrollTop( this.offsetTop - captionTop) ;
+			// Highlight caption	
+			hightlightCaption($(this));	
+	   	}
+	});
 });
 
 // Format time as 0:00
@@ -165,7 +161,7 @@ $volumeBar.click( function() {
 
 // Toggle Mute button
 $muteButton.click( function() {
-	if (video.muted == false) {
+	if (video.muted === false) {
 	   // Mute the video
 	   video.muted = true;
 	   // Update to mute icon
@@ -174,7 +170,7 @@ $muteButton.click( function() {
 		// Unmute the video
 		video.muted = false;
 		// Update to unmute icon
-		$muteButton.innerHTML = "<img src='icons/volume-on-icon.png' alt='Unmute' />";
+		$muteButton.html("<img src='icons/volume-on-icon.png' alt='Unmute' />");
 	}
 });
 
@@ -195,12 +191,12 @@ $muteButton.click( function() {
 =============================================================== */
 
 // Update progress bar
-$progressBar.on( "input", function() {
-	
+$progressBar.on( "input", function() {	
 	var time = video.duration * ($progressBar.val() / 100);
 	video.currentTime = time;
 });
 
+// Update buffer bar
 video.addEventListener('progress', function() {
     var bufferedEnd = video.buffered.end(video.buffered.length - 1);
     var duration =  video.duration;

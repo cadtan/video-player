@@ -9,7 +9,7 @@
 body {
 	font-family: 'Nunito', sans-serif;
 	font-weight: 400;
-	line-height: 1.6;
+	line-height: 2;
 	color: #666;
 }
 
@@ -65,15 +65,17 @@ video {
 }
 
 .video-container:hover #progress  {
-	bottom: 35px;
+	bottom: 45px;
 }
 
 #controls-left {
+  width: 20%;
 	float: left;
 }
 
 #controls-right {
-	float: right; 
+  float: right;
+  width: 70%;
 }
 
 button {	
@@ -100,13 +102,18 @@ button img {
 	color: #FFF;
 }
 
+#volume-bar {
+ vertical-align: middle;
+ width: 70%;
+}
+
 /* ---- Progress bar ---- */
 
 #progress {
 	width: 100%;
 	height: 15px;
     position: absolute;
-    bottom: 1px;  
+    bottom: 12px;  
     opacity: 0.8; 
     -webkit-transition: bottom  0.5s ease-out;
     -moz-transition: bottom  0.5s ease-out;
@@ -124,18 +131,10 @@ button img {
 #buffered-amount {
   display: block;
   height: 100%;
-  background-color: #D0D0D0;
+  background-color: #989898;
+  opacity: 0.1;
   width: 0;
 }
-
-/*
-.progress {
-  bottom: 5px;
-  height: 10px;  
-  position: absolute;
-  z-index: 2;
-}
-*/
 
 #progress-amount {
   display: block;
@@ -155,28 +154,112 @@ button img {
 	width: 100%;
 }
 
-/* ---- Range slider ---- */
 
-input[type=range] {
-	-webkit-appearance: none;
-	background-color: #CCC;
-	border-radius: 0px;
-    width: 100px;
-    height: 3px;
-    vertical-align: middle;
+
+/* ================================= 
+  Range slider
+==================================== */
+
+/*********** CHROME ***********/
+
+input[type=range]{
+    -webkit-appearance: none;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-    background-color: #098BEF;
-    width: 12px;
-    height: 12px;
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
     border-radius: 50%;
+    background: #098BEF;
+    margin-top: -5px;
 }
 
 input[type=range]:focus {
     outline: none;
 }
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+
+/*********** FIREFOX ***********/
+
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 5px;
+    background: #ddd;
+    border: none;
+}
+
+input[type=range]::-moz-range-thumb {
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #098BEF;
+}
+
+/*hide the outline behind the border*/
+input[type=range]:-moz-focusring{
+    outline: 1px solid white;
+    outline-offset: -1px;
+}
+
+input[type=range]:focus::-moz-range-track {
+    background: #ccc;
+}
+
+
+/********** IE ***********/
+
+input[type=range]::-ms-track {
+    width: 100%;
+    height: 5px;
+    
+    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+    background: transparent;
+    
+    /*leave room for the larger thumb to overflow with a transparent border */
+    border-color: transparent;
+    border-width: 6px 0;
+
+    /*remove default tick marks*/
+    color: transparent;
+
+}
+
+input[type=range]::-ms-fill-lower {
+    background: #777;
+}
+input[type=range]::-ms-fill-upper {
+    background: #ddd;
+}
+input[type=range]::-ms-thumb {
+    border: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    background:  #098BEF;
+
+}
+input[type=range]:focus::-ms-fill-lower {
+    background: #888;
+}
+input[type=range]:focus::-ms-fill-upper {
+    background: #ccc;
+}
+
+
 
 /* ---- Float clearfix ---- */
 
@@ -191,10 +274,22 @@ input[type=range]:focus {
   Media Queries
 ==================================== */
 
-@media screen and (min-width: 460px) {
+@media screen and (min-width: 353px) {
 	.wrapper {
 		max-width: 860px;
 	}
+
+  #controls-left {
+    width: 70%;
+  } 
+
+  #controls-right {
+    width: 30%;
+  } 
+
+/*  #volume-bar {
+    width: 30%;
+  }*/
 
 	#caption {
 		font-size: 0.8em;
