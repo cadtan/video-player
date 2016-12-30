@@ -6,13 +6,6 @@ Internet Explorer: Edge 13
 =============================================================  */
 
 
-// Create video element
-var video = document.createElement('video');
-
-// Check browser support before loading video
-checkBrowserSupport();
-
-
 /* ============================================================ 
   Variables
 =============================================================== */
@@ -20,41 +13,13 @@ checkBrowserSupport();
 // Video Controls
 var $playPauseButton = $("#play-pause");
 var $fullScreenButton = $("#fullScreen");
+var $captionButton = $("#closed-caption");
 var $muteButton = $("#mute");
 var $volumeBar = $("#volume-bar");
 
 // Sliders
 var $progressBar = $("#progress-bar");
 var $playTime = ("#playtime");
-
-
-/* ============================================================ 
-  Load video if browser supports video type
-=============================================================== */
-
-function checkBrowserSupport() {
-	var $vidExt;
-
-	// if browser supports the video type
-	if ( video.canPlayType('video/mp4') ) {
-		// Save video extension to variable 
-	    $vidExt = '.mp4';
-	} else if ( video.canPlayType('video/ogg') ) {
-		$vidExt= '.ogg';
-	} else {
-		// Display message if browser does not support video type
-		$("#message").innerHTML = "No video support"; 
-		// hide default controls
-		$( ".videoContainer" ).hide();
-	}
-
-	// Append video element to media div
-	$("#media").append(video);
-	// Load video from video folder
-	video.src = "video/video" + $vidExt;
-	// Load caption
-	$("#caption").html( printCaption(captions) );
-}
 
 
 /* ============================================================ 
@@ -68,8 +33,12 @@ function checkBrowserSupport() {
 		captionHTML += captions[i].caption; 
 		captionHTML += "</span>";
 	}
-	return captionHTML;
+	// return captionHTML;
+	$('#caption').html(captionHTML);
 }
+
+printCaption(captions);
+
 
 // Highlight caption
 function hightlightCaption (span) {
@@ -157,6 +126,23 @@ $playPauseButton.click( function () {
 // Set volume control
 $volumeBar.click( function() {
 	video.volume = $volumeBar.val();
+});
+
+// Toggle caption button
+$captionButton.click( function() {
+	if (video.textTracks[0].mode == "showing") {
+        	// Turn off captions
+        	video.textTracks[0].mode = "hidden";
+
+        	// update CC button text 
+            $captionButton.html("<strike>CC</strike>");
+        } else {
+        	// Turn captions on
+        	video.textTracks[0].mode = "showing";
+
+        	// update CC button text 
+            $captionButton.html("CC");
+        }    
 });
 
 // Toggle Mute button

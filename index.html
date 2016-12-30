@@ -10,10 +10,12 @@
   </head>
   <body>
     <div class="wrapper">  
-      <!-- display message if browser don't support video type -->
-      <div id="message"></div>
       <div class="video-container" > 
-        <div id="media"></div>   
+        <video id="video"  preload="metadata">
+                <source src="video/video.mp4" type="video/mp4" />
+                <source src="video/video.ogg" type="video/ogg" />
+                <track label="English" kind="subtitles" srclang="en" src="captions.vtt" default />
+              </video>  
         <!-- Progress bar -->
         <div id="progress">
           <input type="range" id="progress-bar" value="0">
@@ -30,6 +32,7 @@
           </div>
           <div id="controls-right">
             <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
+            <button type="button" id="closed-caption">CC</button>
             <button id="mute"><img src="icons/volume-on-icon.png" alt="Mute" /></button>
             <button id="fullScreen"><img src="icons/fullscreen-icon.png" alt="fullscreen" /></button>         
           </div>
