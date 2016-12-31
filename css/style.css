@@ -148,12 +148,22 @@ button img {
 	z-index: 1;
 }
 
-#progress-bar ,
+#progress-bar,
 .buffered,
 .progress {
 	width: 100%;
 }
 
+
+
+.bufferBar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background-color: #ccc;
+}
 
 
 /* ================================= 

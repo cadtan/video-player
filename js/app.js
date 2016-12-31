@@ -10,6 +10,9 @@ Internet Explorer: Edge 13
   Variables
 =============================================================== */
 
+// Video
+var video = document.getElementById('video'); 
+
 // Video Controls
 var $playPauseButton = $("#play-pause");
 var $fullScreenButton = $("#fullScreen");
@@ -20,6 +23,8 @@ var $volumeBar = $("#volume-bar");
 // Sliders
 var $progressBar = $("#progress-bar");
 var $playTime = ("#playtime");
+
+
 
 
 /* ============================================================ 
@@ -182,13 +187,17 @@ $progressBar.on( "input", function() {
 	video.currentTime = time;
 });
 
-// Update buffer bar
-video.addEventListener('progress', function() {
-    var bufferedEnd = video.buffered.end(video.buffered.length - 1);
-    var duration =  video.duration;
-    if (duration > 0) {
-      document.getElementById('buffered-amount').style.width = ((bufferedEnd / duration)*100) + "%";
-    }
-});
 
+//loop to get HTML5 video buffered data
+var startBuffer = function() {
+    var maxduration = video.duration;
+    var currentBuffer = video.buffered.end(0);
+    var percentage = 100 * currentBuffer / maxduration;
+    $('.bufferBar').css('width', percentage+'%');
+ 
+    if(currentBuffer < maxduration) {
+        setTimeout(startBuffer, 500);
+    }
+};
+setTimeout(startBuffer, 500);
 
