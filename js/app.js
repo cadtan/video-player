@@ -19,12 +19,11 @@ var $fullScreenButton = $("#fullScreen");
 var $captionButton = $("#closed-caption");
 var $muteButton = $("#mute");
 var $volumeBar = $("#volume-bar");
+var $playBackSpeed = $("#playback-speed");
 
 // Sliders
 var $progressBar = $("#progress-bar");
 var $playTime = ("#playtime");
-
-
 
 
 /* ============================================================ 
@@ -58,9 +57,18 @@ function hightlightCaption (span) {
 	$(span).addClass("hightlight");		
 }
 
-// Bind click event to each caption span 
+
+// Add hover class and bind click event to each caption span 
 $( "span" ).each( function( index ) {
-  $(this).bind( "click", function() {
+	// Add hover class on hover
+	$(this).hover( function() {
+	    $( this ).addClass( "hover" );
+	  }, function() {
+	    $( this ).removeClass( "hover" );
+	  }
+	);
+	// Bind click event to each caption span 
+  	$(this).bind( "click", function() {
 	  	video.currentTime = captions[index].start;
 	  	video.play();  		
 	});
@@ -128,6 +136,11 @@ $playPauseButton.click( function () {
 	}
 });
 
+// Set playback speed control
+$playBackSpeed.change( function(event) {
+  video.playbackRate = event.target.value;
+});
+
 // Set volume control
 $volumeBar.click( function() {
 	video.volume = $volumeBar.val();
@@ -187,17 +200,19 @@ $progressBar.on( "input", function() {
 	video.currentTime = time;
 });
 
-
 //loop to get HTML5 video buffered data
 var startBuffer = function() {
     var maxduration = video.duration;
     var currentBuffer = video.buffered.end(0);
     var percentage = 100 * currentBuffer / maxduration;
-    $('.bufferBar').css('width', percentage+'%');
+    $('.buffer-bar').css('width', percentage+'%');
  
     if(currentBuffer < maxduration) {
         setTimeout(startBuffer, 500);
     }
 };
+
+//  Use setTimeout() as Chrome have bug with progress event
 setTimeout(startBuffer, 500);
+
 

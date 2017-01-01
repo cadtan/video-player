@@ -20,7 +20,7 @@
         <div id="progress">
           <input type="range" id="progress-bar" value="0">
         <!-- Buffer bar -->
-          <div class="bufferBar"></div>
+          <div class="buffer-bar"></div>
         </div>
 
         <!-- Video controls -->
@@ -30,8 +30,15 @@
             <div id="playtime">0:00 / 0.59</div> 
           </div>
           <div id="controls-right">
-            <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
+            <select id="playback-speed">
+              <option value="1">SPD</option>
+              <option value=".5">.5x</option>
+              <option value="1">1x</option>
+              <option value="1.5">1.5x</option>
+              <option value="2">2x</option>
+            </select>
             <button type="button" id="closed-caption">CC</button>
+            <input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">
             <button id="mute"><img src="icons/volume-on-icon.png" alt="Mute" /></button>
             <button id="fullScreen"><img src="icons/fullscreen-icon.png" alt="fullscreen" /></button>         
           </div>
