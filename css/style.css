@@ -297,16 +297,22 @@ input[type=range]:focus::-ms-fill-upper {
 
 @media screen and (min-width: 760px) {
   #controls-left {
-    width: 70%;
+    width: 65%;
   } 
 
   #controls-right {
-    width: 30%;
+    width: 35%;
   } 
 
   #volume-bar {
    vertical-align: middle;
    width: 45%;
+  }
+
+  #mute img {
+    width: 60%;
+    vertical-align: middle;
+    display: inline-block;
   }
 
   #playback-speed {
