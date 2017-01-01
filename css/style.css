@@ -73,13 +73,13 @@ video {
 }
 
 #controls-left {
-  width: 40%;
+  width: 30%;
 	float: left;
 }
 
 #controls-right {
   float: right;
-  width: 60%;
+  width: 70%;
 }
 
 button {	
@@ -92,22 +92,15 @@ button img {
 	width: 40%;
 }
 
-#playback-speed {
-    border: 1px solid #CCC;
-    opacity: 0.5;
-    color: #FFF;
-    font-size: 0.7em;
-    width: 50px;
-    border-radius: 3px;
-    overflow: hidden;
-    background-color: #000;
-}
-
-#mute img,
 #fullscreen img {
 	width: 60%;
 	vertical-align: middle;
 	display: inline-block;
+}
+
+#mute img,
+#playback-speed {
+  display: none;
 }
 
 #playtime {
@@ -119,7 +112,7 @@ button img {
 
 #volume-bar {
  vertical-align: middle;
- width: 35%;
+ width: 65%;
 }
 
 /* ---- Progress bar ---- */
@@ -310,6 +303,23 @@ input[type=range]:focus::-ms-fill-upper {
   #controls-right {
     width: 30%;
   } 
+
+  #volume-bar {
+   vertical-align: middle;
+   width: 45%;
+  }
+
+  #playback-speed {
+    display: inline-block;
+    border: 1px solid #CCC;
+    opacity: 0.5;
+    color: #FFF;
+    font-size: 0.7em;
+    width: 50px;
+    border-radius: 3px;
+    overflow: hidden;
+    background-color: #000;
+  }
 
 	#caption {
 		font-size: 0.9em;
