@@ -23,7 +23,7 @@ var $playBackSpeed = $("#playback-speed");
 
 // Sliders
 var $progressBar = $("#progress-bar");
-var $playTime = ("#playtime");
+var $playTime = $("#playtime");
 
 
 /* ============================================================ 
@@ -89,7 +89,8 @@ video.addEventListener('timeupdate', function() {
 	// Display play time in minutes and seconds
 	var currentPlayTime = formatTime(currentTime);
 	var videoDuration = formatTime(video.duration);
-	$playTime.innerText = currentPlayTime  + " / " + videoDuration;
+
+	$playTime.text( currentPlayTime  + " / " + videoDuration );
 
 	// Highlight caption and set scroll position as the video plays
    	$("span").each(function(index){	
@@ -211,8 +212,8 @@ var startBuffer = function() {
         setTimeout(startBuffer, 500);
     }
 };
-
 //  Use setTimeout() as Chrome have bug with progress event
 setTimeout(startBuffer, 500);
+
 
 
